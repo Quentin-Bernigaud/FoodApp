@@ -8,41 +8,50 @@ import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./src/views/HomeScreen.js";
 import ScanScreen from "./src/views/ScanScreen";
 import DetailsScreen from "./src/views/DetailsScreen";
+import AddButton from "./src/components/AddButton";
 
 const HomeStack = createStackNavigator({
-  HomePage: { screen: HomeScreen },
-  ScanScreen: { screen: ScanScreen },
-  Details: { screen: DetailsScreen }
+  FoodApp: { screen: HomeScreen }
+});
+const ScanStack = createStackNavigator({
+  Scan: { screen: ScanScreen }
+});
+const VoidStack = createStackNavigator({
+  FoodApp: { screen: () => null }
 });
 
-const TabNavigator = createBottomTabNavigator(
+const BaseNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: HomeStack,
       navigationOptions: () => ({
-        tabBarIcon: ({ focused, tintColor }) => (
+        tabBarIcon: ({ tintColor }) => (
           <Icon
-            focused={focused}
-            tintColor={{ tintColor }}
+            type="MaterialCommunityIcons"
             name="home"
             color={tintColor}
-            active={focused}
             size={24}
+            style={{ color: tintColor }}
           />
         )
       })
     },
-    Scanner: {
-      screen: ScanScreen,
+    // Adding: {
+    //     screen: () => null, // Empty screen
+    //     navigationOptions: () => ({
+    //         tabBarIcon: <AddButton /> // Plus button component
+    //     })
+    // },
+    Scan: {
+      screen: ScanStack,
       navigationOptions: () => ({
-        tabBarIcon: ({ focused, tintColor }) => (
+        tabBarIcon: ({ tintColor }) => (
           <Icon
-            focused={focused}
-            tintColor={{ tintColor }}
             type="MaterialCommunityIcons"
             name="barcode-scan"
             color={tintColor}
             size={24}
+            style={{ color: tintColor }}
           />
         )
       })
@@ -50,11 +59,14 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "#cd077d",
-      inactiveTintColor: "gray"
+      showLabel: false, // hide labels
+      activeTintColor: "#FFFFFF", // active icon color
+      inactiveTintColor: "#BF8A49", // inactive icon color
+      style: {
+        backgroundColor: "#FCB65F" // TabBar background
+      }
     }
   }
 );
 
-export default createAppContainer(TabNavigator);
+export default createAppContainer(BaseNavigator);
