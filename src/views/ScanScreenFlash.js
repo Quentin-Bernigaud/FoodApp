@@ -36,8 +36,16 @@ export default class ScanScreen extends React.Component {
         });
   }
 
+  handleBarCodeScanned({type, data}) {
+      alert(`type: ${type} - data: ${data}`)
+  }
+
   render() {
     const { hasCameraPermission } = this.state;
+    let flash_title = "Flash";
+    if (this.state.isFlashOn === true) {
+        flash_title = "⚡ Flash ⚡"
+    }
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
@@ -52,13 +60,14 @@ export default class ScanScreen extends React.Component {
           <Camera
             type={this.state.type}
             flashMode={this.state.flashState}
+            onBarCodeScanned= {this.state.scanned ? undefined : this.handleBarCodeScanned}
             style={{
               flex: 1,
               flexDirection: "column",
               justifyContent: "flex-end"
             }}
           >
-            <Button title={"Flash"} onPress={() => this.changeFlash()} />
+            <Button title={flash_title} color={"#0097D7"} onPress={() => this.changeFlash()} />
           </Camera>
         </View>
       );
