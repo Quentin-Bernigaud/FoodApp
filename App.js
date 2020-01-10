@@ -11,7 +11,8 @@ import DetailsScreen from "./src/views/DetailsScreen";
 import AddButton from "./src/components/AddButton";
 
 const HomeStack = createStackNavigator({
-  FoodApp: { screen: HomeScreen }
+  FoodApp: { screen: HomeScreen },
+  Details: { screen: DetailsScreen }
 });
 const ScanStack = createStackNavigator({
   Scan: { screen: ScanScreen }
