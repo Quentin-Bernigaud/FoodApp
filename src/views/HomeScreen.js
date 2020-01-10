@@ -15,7 +15,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 class ListItem extends React.Component {
   _onPress(item) {
-    console.log(this.props.navigation);
     this.props.navigation.navigate("Details", {
       product_name: item.product_name,
       item: item
@@ -23,12 +22,24 @@ class ListItem extends React.Component {
   }
 
   render() {
+
+    if(typeof(this.props.item.nutriscore_grade) == 'undefined'){
+      console.log(this.props.item)
+    }
     return (
-      <View style={styles.lineContainer}>
-        <TouchableOpacity style={{}} onPress={() => this._onPress(this.props.item)}>
-          <Text>{this.props.item.product_name}</Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView>
+        <View>
+          <TouchableOpacity style={styles.lineContainer} onPress={() => this._onPress(this.props.item)}>
+
+            <Text style={{fontSize: 15, maxWidth: '65%'}}>{this.props.item.product_name}</Text>
+            <Image
+              source={{uri: 'https://static.openfoodfacts.org/images/misc/nutriscore-' + this.props.item.nutriscore_grade + '.png'}}
+              style={styles.nutriscore_img}
+            />
+
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -84,7 +95,18 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   lineContainer: {
+    fontSize: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: 10,
-    paddingBottom: 5
+    paddingBottom: 5,
+    borderTopColor: '#555',
+    borderTopWidth: 1,
+    justifyContent: 'space-between'
+  },
+  nutriscore_img: {
+    aspectRatio: 1.8,
+    width: 50,
+    marginRight: 20
   }
 });
