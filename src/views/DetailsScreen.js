@@ -30,48 +30,46 @@ export default class DetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nutriscore_table: {
-        tableHead: [],
-        tableData: []
-      },
+      tableHead: ['Head', 'Head2', 'Head3', 'Head4'],
+      tableData:
+        ['1', '2', '3', '4'
+      ],
       nutriments_table: {
-        tableTitle: ['1', '2'],
+        tableHead: [
+          'energy \n ('+ this.props.navigation.state.params.item.nutriments.energy_unit +')',
+          'proteins \n ('+ this.props.navigation.state.params.item.nutriments.proteins_unit +')',
+          'saturated fats \n ('+ this.props.navigation.state.params.item.nutriments["saturated-fat_unit"] +')',
+          'salt \n ('+ this.props.navigation.state.params.item.nutriments.salt_unit +')',
+          'sugars \n ('+ this.props.navigation.state.params.item.nutriments.sugars_unit +')',
+          'carbohydrates \n ('+ this.props.navigation.state.params.item.nutriments.carbohydrates_unit +')',
+          'fibers \n (g)',
+          'fruit/veggie \n (g)'
+        ],
         tableData: [
-          'a',
-          'b'
+          String(this.props.navigation.state.params.item.nutriments.energy_value).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriments.proteins).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriments["saturated-fat_value"]).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriments.salt_value).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriments.sugars_value).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriments.carbohydrates_value).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriscore_data.fruits_vegetables_nuts_colza_walnut_olive_oils).substring(0, 7),
+          String(this.props.navigation.state.params.item.nutriscore_data.fiber).substring(0, 7)
         ]
       }
     };
   }
 
-  componentDidMount(){
-    this.setState({
-      nutriscore_table:{
-        tableHead: ['energy', 'fibers', 'fruit part', 'proteins', 'sat. fats', 'sodium', 'sugar'],
-        tableData: [
-          this.props.navigation.state.params.item.nutriscore_data.energy,
-          this.props.navigation.state.params.item.nutriscore_data.fiber,
-          this.props.navigation.state.params.item.nutriscore_data.fruits_vegetables_nuts_colza_walnut_olive_oils,
-          String(this.props.navigation.state.params.item.nutriscore_data.proteins).substring(0, 10),
-          String(this.props.navigation.state.params.item.nutriscore_data.saturated_fat).substring(0, 10),
-          this.props.navigation.state.params.item.nutriscore_data.energy,
-          this.props.navigation.state.params.item.nutriscore_data.energy
-        ]
-      }
-    })
-  }
   render() {
     const state = this.state
     const item = this.props.navigation.state.params;
     //console.log(typeof(item.item.nutriscore_data.proteins))
-    console.log(typeof(item.item.nutriscore_data.proteins))
-    let string_debug = state.nutriscore_table.tableData[3]
+    console.log((item.item.code))
+    let string_debug = item.item.code
 
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: 20, fontFamily: 'Roboto' }}>
 
         <ScrollView style={styles.scroll_view}>
-        <Text>{string_debug}</Text>
           <View style={styles.details_top}>
             <Image
               source={{
@@ -82,33 +80,31 @@ export default class DetailsScreen extends React.Component {
 
             <View style={styles.details_header}>
               <Text style={styles.product_name}>{item.product_name}</Text>
-              <Text style={styles.product_code}>{'| ||| ' + item.item.code + ' ||| ||'}</Text>
+              <Text style={styles.product_code}>{"| ||| " + item.item.code + " ||| ||"}</Text>
             </View>
           </View>
 
           <View style={styles.details_main}>
-            <Text style={{color: '#555'}}>{'MARQUE : ' + item.item.brands + '\n'}</Text>
-            <Text style={{color: '#555'}}>{item.item.ingredients_text_fr}</Text>
+            <Text style={styles.info_title}>{'Marque :'}</Text>
+            <Text style={styles.info_content}>{item.item.brands}</Text>
+            <Text style={styles.info_title}>{'Allergènes :'}</Text>
+            <Text style={styles.info_content}>{item.item.allergens_from_ingredients}</Text>
 
-              <View style={{alignSelf: 'center', marginTop: 15}}>
+              <View style={{alignSelf: 'center', width: '100%'}}>
+                <Text style={styles.info_title}>{"Informations nutritives (pour 100g) :"}</Text>
+                <Table style={{flexDirection: 'row', margin: 5, alignSelf: 'center', width: '75%'}} borderStyle={{borderWidth: 1, borderColor: '#bbb'}}>
+                  <TableWrapper><Col data={state.nutriments_table.tableHead} textStyle={styles.cells}/></TableWrapper>
+                  <TableWrapper style={{flex:1}}><Col data={state.nutriments_table.tableData} textStyle={styles.cells}/></TableWrapper>
+                </Table>
                 <Image
                   source={{
                     uri: 'https://static.openfoodfacts.org/images/misc/nutriscore-' + item.item.nutriscore_grade + '.png'
                   }}
-                  style={styles.nutriscore}
+                  style={styles.nutriscore_img}
                 />
-
-                <Table style={{margin: 15, alignSelf: 'center', width: 150}} borderStyle={{borderWidth: 1, borderColor: '#bbb'}}>
-                  <Row data={state.nutriscore_table.tableHead} textStyle={styles.cells}/>
-                  <Row data={state.nutriscore_table.tableData} textStyle={styles.cells}/>
-                </Table>
-
-                {/*<Table style={{flexDirection: 'row', margin: 15, alignSelf: 'center', width: '75%'}} borderStyle={{borderWidth: 1, borderColor: '#bbb'}}>
-                  <TableWrapper><Col data={state.nutriments_table.tableTitle} textStyle={styles.cells}/></TableWrapper>
-                  <TableWrapper style={{flex:1}}><Col data={state.nutriments_table.tableData} textStyle={styles.cells}/></TableWrapper>
-                </Table>*/}
               </View>
-            <Text style={{color: '#555'}}>{'Ingrédients allergènes : \n' + item.item.allergens_from_ingredients}</Text>
+              <Text style={styles.info_title}>{'Ingrédients :'}</Text>
+              <Text style={styles.info_content}>{item.item.ingredients_text_fr}</Text>
             <View style={{height: 200}}></View>
           </View>
         </ScrollView>
@@ -152,8 +148,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue'
   },
   product_code: {
-    fontSize: 20,
-    fontStyle: 'italic' ,
+    fontSize: 17,
     textAlign: 'center',
     //backgroundColor: 'yellow'
   },
@@ -161,16 +156,26 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue',
     marginTop: 10,
   },
-  nutriscore: {
-    width: 100,
+  info_title :{
+    fontSize: 18,
+    textTransform: 'uppercase',
+    marginTop: 20,
+    color: '#555'
+  },
+  info_content: {
+    marginLeft: 35,
+    color: '#555'
+  },
+  nutriscore_img: {
+    width: 140,
     aspectRatio: 1.8,
-    marginLeft: 10
+    alignSelf: 'center'
   },
   cells: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    textTransform: 'capitalize',
+    fontSize: 12,
+    paddingLeft: 3,
+    paddingRight: 3,
     textAlign: 'center',
     color: '#555'
-  }
+  },
 });
