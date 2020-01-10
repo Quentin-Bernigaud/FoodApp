@@ -25,7 +25,7 @@ class ListItem extends React.Component {
   render() {
     return (
       <View style={styles.lineContainer}>
-        <TouchableOpacity onPress={() => this._onPress(this.props.item)}>
+        <TouchableOpacity style={{}} onPress={() => this._onPress(this.props.item)}>
           <Text>{this.props.item.product_name}</Text>
         </TouchableOpacity>
       </View>
