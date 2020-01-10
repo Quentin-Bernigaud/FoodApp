@@ -7,7 +7,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import HomeScreen from "./src/views/HomeScreen.js";
 import DetailsScreen from "./src/views/DetailsScreen";
-import ScanScreen from "./src/views/ScanScreen";
+import ScanScreen from "./src/views/ScanScreenFlash";
 import HistoryScreen from "./src/views/HistoryScreen";
 import AddButton from "./src/components/AddButton";
 
