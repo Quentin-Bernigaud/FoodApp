@@ -15,7 +15,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 class ListItem extends React.Component {
   _onPress(item) {
-    console.log(this.props.navigation)
+    console.log(this.props.navigation);
     this.props.navigation.navigate("Details", {
       product_name: item.product_name,
       item: item
@@ -42,7 +42,8 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    return fetch("https://fr-en.openfoodfacts.org/category/pizza/2.json")
+    // return fetch("https://fr-en.openfoodfacts.org/category/pizza/2.json")
+    return fetch("https://fr-en.openfoodfacts.org/category/chocolates/1.json")
       .then(response => response.json())
       .then(responseJson => {
         this.setState(

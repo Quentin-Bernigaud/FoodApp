@@ -6,8 +6,9 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 
 import HomeScreen from "./src/views/HomeScreen.js";
-import ScanScreen from "./src/views/ScanScreen";
 import DetailsScreen from "./src/views/DetailsScreen";
+import ScanScreen from "./src/views/ScanScreen";
+import HistoryScreen from "./src/views/HistoryScreen";
 import AddButton from "./src/components/AddButton";
 
 const HomeStack = createStackNavigator({
@@ -17,8 +18,8 @@ const HomeStack = createStackNavigator({
 const ScanStack = createStackNavigator({
   Scan: { screen: ScanScreen }
 });
-const VoidStack = createStackNavigator({
-  FoodApp: { screen: () => null }
+const HistoryStack = createStackNavigator({
+  Historique: { screen: HistoryScreen }
 });
 
 const BaseNavigator = createBottomTabNavigator(
@@ -37,12 +38,6 @@ const BaseNavigator = createBottomTabNavigator(
         )
       })
     },
-    // Adding: {
-    //     screen: () => null, // Empty screen
-    //     navigationOptions: () => ({
-    //         tabBarIcon: <AddButton /> // Plus button component
-    //     })
-    // },
     Scan: {
       screen: ScanStack,
       navigationOptions: () => ({
@@ -50,6 +45,20 @@ const BaseNavigator = createBottomTabNavigator(
           <Icon
             type="MaterialCommunityIcons"
             name="barcode-scan"
+            color={tintColor}
+            size={24}
+            style={{ color: tintColor }}
+          />
+        )
+      })
+    },
+    History: {
+      screen: HistoryStack,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon
+            type="MaterialCommunityIcons"
+            name="history"
             color={tintColor}
             size={24}
             style={{ color: tintColor }}
